@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const StyledPagination = styled.div`
   width: 100%;
@@ -21,10 +21,15 @@ const Buttons = styled.div`
   gap: 0.6rem;
 `;
 
-const PaginationButton = styled.button`
-  background-color: ${(props) =>
-    props.active ? " var(--color-brand-600)" : "var(--color-grey-50)"};
-  color: ${(props) => (props.active ? " var(--color-brand-50)" : "inherit")};
+interface PaginationButtonProps {
+  active: boolean;
+}
+
+const PaginationButton = styled.button<PaginationButtonProps>`
+  background-color: ${(props: PaginationButtonProps) =>
+    props.active ? ' var(--color-brand-600)' : 'var(--color-grey-50)'};
+  color: ${(props: PaginationButtonProps) =>
+    props.active ? ' var(--color-brand-50)' : 'inherit'};
   border: none;
   border-radius: var(--border-radius-sm);
   font-weight: 500;
@@ -55,3 +60,13 @@ const PaginationButton = styled.button`
     color: var(--color-brand-50);
   }
 `;
+
+interface PaginationProps {
+  count: number;
+}
+
+function Pagination({ count }: PaginationProps) {
+  return <div></div>;
+}
+
+export default Pagination;

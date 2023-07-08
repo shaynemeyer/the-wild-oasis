@@ -2,12 +2,12 @@ import { useForm } from 'react-hook-form';
 
 import { useCountries } from 'hooks/useCountries';
 import { useCreateGuest } from 'features/guests/useCreateGuest';
-import Spinner from 'ui/Spinner';
-import Form from 'ui/Form';
-import FormRow from 'ui/FormRow';
-import Input from 'ui/Input';
-import Select from 'ui/Select';
-import Button from 'ui/Button';
+import Spinner from '../../ui/Spinner';
+import Form from '../../ui/Form';
+import FormRow from '../../ui/FormRow';
+import Input from '../../ui/Input';
+import Select from '../../ui/Select';
+import Button from '../../ui/Button';
 import styled from 'styled-components';
 
 const FormSelect = styled(Select)`
@@ -55,20 +55,20 @@ function CreateGuestForm({ onSuccessNewGuest, closeModal }) {
   };
 
   return (
-    <Form type='modal' onSubmit={handleSubmit(onSubmit)}>
-      <FormRow label='Full name' error={errors?.fullName?.message}>
+    <Form type="modal" onSubmit={handleSubmit(onSubmit)}>
+      <FormRow label="Full name" error={errors?.fullName?.message}>
         <Input
-          type='text'
-          id='fullName'
+          type="text"
+          id="fullName"
           disabled={isCreating}
           {...register('fullName', { required: 'This field is required' })}
         />
       </FormRow>
 
-      <FormRow label='Email address' error={errors?.email?.message}>
+      <FormRow label="Email address" error={errors?.email?.message}>
         <Input
-          type='email'
-          id='email'
+          type="email"
+          id="email"
           disabled={isCreating}
           {...register('email', {
             required: 'Email address is required',
@@ -81,9 +81,9 @@ function CreateGuestForm({ onSuccessNewGuest, closeModal }) {
         />
       </FormRow>
 
-      <FormRow label='Nationality' error={errors?.nationality?.message}>
+      <FormRow label="Nationality" error={errors?.nationality?.message}>
         <FormSelect
-          id='nationality'
+          id="nationality"
           disabled={isCreating}
           options={[
             { value: '', label: 'Select nationality...' },
@@ -93,19 +93,19 @@ function CreateGuestForm({ onSuccessNewGuest, closeModal }) {
         ></FormSelect>
       </FormRow>
 
-      <FormRow label='National ID' error={errors?.nationalID?.message}>
+      <FormRow label="National ID" error={errors?.nationalID?.message}>
         <Input
-          type='text'
+          type="text"
           disabled={isCreating}
-          id='nationalID'
+          id="nationalID"
           {...register('nationalID', { required: 'This field is required' })}
         />
       </FormRow>
 
       <FormRow>
         <Button
-          variation='secondary'
-          type='reset'
+          variation="secondary"
+          type="reset"
           disabled={isCreating}
           onClick={() => closeModal?.()}
         >
