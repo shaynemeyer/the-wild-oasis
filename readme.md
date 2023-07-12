@@ -1,14 +1,24 @@
 # The Wild Oasis
 
-A Hotel Managment app written in React
+A Hotel Managment app written in React with TypeScript.
 
 ## Tech
 
+### Frontend / UI
+
 - ReactJS
 - React Router
+- React Hook Form
 - Style Components
-- React Query
 - UI State - React Context API
+- React Query
+
+--- 
+### Backend / API
+
+- Supabase - API/Auth/Image Upload
+
+
 
 ## Resources
 
