@@ -1,39 +1,64 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+
 import Input from '../../ui/Input';
 import Form from '../../ui/Form';
 import Button from '../../ui/Button';
 import FileInput from '../../ui/FileInput';
 import Textarea from '../../ui/Textarea';
-import { useForm } from 'react-hook-form';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createCabin } from '../../services/apiCabins';
-import { toast } from 'react-hot-toast';
 import FormRow from '../../ui/FormRow';
 
+import { useCreatingCabin } from './useCreatingCabin';
+import { useEditingCabin } from './useEditingCabin';
+
 interface FormData extends Omit<cabinItem, 'id' | 'created_at' | 'image'> {
-  image: FileList;
+  image: FileList | string;
 }
 
-function CreateCabinForm() {
-  const { register, handleSubmit, reset, getValues, formState } =
-    useForm<FormData>();
-  const { errors } = formState;
-  const queryClient = useQueryClient();
+interface CreateCabinFormProps {
+  cabinToEdit?: cabinItem;
+}
 
-  const { mutate, isLoading: isCreating } = useMutation({
-    mutationFn: createCabin,
-    onSuccess: async () => {
-      toast.success('New cabin successfully created');
-      await queryClient.invalidateQueries({ queryKey: ['cabins'] });
-      reset();
-    },
-    onError: (err: Error) => toast.error(err.message),
-  });
+function CreateCabinForm({ cabinToEdit }: CreateCabinFormProps) {
+  const { id: editId, ...editValues } = cabinToEdit || {};
+  const isEditSession = Boolean(editId);
+
+  const { register, handleSubmit, reset, getValues, formState } =
+    useForm<FormData>({
+      defaultValues: isEditSession ? editValues : {},
+    });
+  const { errors } = formState;
+
+  const { isCreating, createCabin } = useCreatingCabin();
+  const { isEditing, editCabin } = useEditingCabin();
+
+  const isWorking = isCreating || isEditing;
 
   function onSubmit(data: FormData) {
-    const imageData = data.image[0];
+    const imageData =
+      typeof data.image === 'string' ? data.image : data.image[0];
 
-    if (imageData) {
-      mutate({ ...data, image: imageData });
+    if (isEditSession) {
+      editCabin(
+        { newCabinData: { ...data, image }, id: editId },
+        {
+          onSuccess: (data) => {
+            console.log(data);
+            reset();
+          },
+        }
+      );
+    } else {
+      createCabin(
+        { ...data, image: imageData },
+        {
+          onSuccess: (data) => {
+            console.log(data);
+            reset();
+          },
+        }
+      );
     }
   }
 
@@ -109,17 +134,19 @@ function CreateCabinForm() {
           id="image"
           accept="image/*"
           {...register('image', {
-            required: 'This field is required',
+            required: isEditSession ? false : 'This field is required',
           })}
         />
       </FormRow>
 
       <FormRow>
         <>
-          <Button $variation="secondary" type="reset">
+          <Button $variation="secondary" type="reset" disabled={isWorking}>
             Cancel
           </Button>
-          <Button disabled={isCreating}>Edit cabin</Button>
+          <Button disabled={isWorking}>
+            {isEditSession ? 'Edit cabin' : 'Create new cabin'}
+          </Button>
         </>
       </FormRow>
     </Form>

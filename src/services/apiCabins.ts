@@ -23,23 +23,47 @@ export async function deleteCabin(id: number) {
 }
 
 interface cabinToUpdate extends Omit<cabinItem, 'id' | 'image'> {
-  image: File;
+  image: File | string;
 }
 
-export async function createCabin(newCabin: cabinToUpdate) {
-  const nameFromFile = newCabin?.image?.name;
-  const imageName = nameFromFile
-    ? (`${Math.random()}-${nameFromFile}`.replaceAll('/', '') as string)
+export async function createEditCabin(
+  newCabin: cabinToUpdate,
+  id: number | undefined
+) {
+  const hasImagePath = typeof newCabin.image === 'string' ? true : false;
+
+  const nameFromFile = !hasImagePath
+    ? (newCabin?.image as File)?.name
     : undefined;
-  const imagePath = imageName
+  const imageName = nameFromFile
+    ? `${Math.random()}-${nameFromFile}`.replaceAll('/', '')
+    : undefined;
+  const imagePath = hasImagePath
+    ? newCabin.image
+    : imageName
     ? `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`
     : undefined;
 
   // 1. Create cabin
-  const { data, error } = await supabase
-    .from('cabins')
-    .insert([{ ...newCabin, image: imagePath ? imagePath : null }])
-    .select();
+  let query = supabase.from('cabins');
+
+  // A) CREATE
+  if (!id) {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    query = query.insert([
+      { ...newCabin, image: imagePath ? imagePath : null },
+    ]);
+  }
+
+  // B) EDIT
+  if (id) {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    query = query
+      .update({ ...newCabin, image: imagePath ? imagePath : null })
+      .eq('id', 'id');
+  }
+
+  const { data, error } = await query.select().single();
 
   if (error) {
     console.error(error);
@@ -64,5 +88,5 @@ export async function createCabin(newCabin: cabinToUpdate) {
     }
   }
 
-  return data as Array<cabinItem>;
+  return data as cabinItem;
 }
