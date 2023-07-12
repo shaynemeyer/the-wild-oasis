@@ -2,6 +2,8 @@
 
 A Hotel Managment app written in React with TypeScript.
 
+![The Wild Oasis - All Cabins](docs/images/oasis-screenshot-1.png)
+
 ## Tech
 
 ### Frontend / UI
