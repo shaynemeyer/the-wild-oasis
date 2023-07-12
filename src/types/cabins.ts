@@ -3,8 +3,8 @@ interface cabinItem {
   description?: string;
   discount?: number;
   id: number;
-  image?: string | null;
-  maxCapacity: number;
+  image?: string | null | File;
+  maxCapacity?: number;
   name: string;
-  regularPrice: number;
+  regularPrice?: number;
 }
