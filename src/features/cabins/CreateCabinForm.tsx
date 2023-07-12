@@ -1,6 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
 
 import Input from '../../ui/Input';
 import Form from '../../ui/Form';
@@ -18,9 +16,10 @@ interface FormData extends Omit<cabinItem, 'id' | 'created_at' | 'image'> {
 
 interface CreateCabinFormProps {
   cabinToEdit?: cabinItem;
+  closeModal?: () => void;
 }
 
-function CreateCabinForm({ cabinToEdit }: CreateCabinFormProps) {
+function CreateCabinForm({ cabinToEdit, closeModal }: CreateCabinFormProps) {
   const { id: editId, ...editValues } = cabinToEdit || {};
   const isEditSession = Boolean(editId);
 
@@ -36,6 +35,8 @@ function CreateCabinForm({ cabinToEdit }: CreateCabinFormProps) {
   const isWorking = isCreating || isEditing;
 
   function onSubmit(data: FormData) {
+    console.log({ data });
+    console.log(typeof data.image);
     const imageData =
       typeof data.image === 'string' ? data.image : data.image[0];
 

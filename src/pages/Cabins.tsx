@@ -21,7 +21,9 @@ function Cabins() {
           Add new cabin
         </Button>
 
-        {showForm && <CreateCabinForm />}
+        {showForm && (
+          <CreateCabinForm closeModal={() => setShowForm((show) => !show)} />
+        )}
       </Row>
     </>
   );
