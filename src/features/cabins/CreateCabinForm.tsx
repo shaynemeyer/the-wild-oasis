@@ -16,10 +16,10 @@ interface FormData extends Omit<cabinItem, 'id' | 'created_at' | 'image'> {
 
 interface CreateCabinFormProps {
   cabinToEdit?: cabinItem;
-  closeModal?: () => void;
+  onCloseModal?: () => void;
 }
 
-function CreateCabinForm({ cabinToEdit, closeModal }: CreateCabinFormProps) {
+function CreateCabinForm({ cabinToEdit, onCloseModal }: CreateCabinFormProps) {
   const { id: editId, ...editValues } = cabinToEdit || {};
   const isEditSession = Boolean(editId);
 
@@ -46,6 +46,7 @@ function CreateCabinForm({ cabinToEdit, closeModal }: CreateCabinFormProps) {
         {
           onSuccess: (data) => {
             reset();
+            onCloseModal?.();
           },
         }
       );
@@ -55,6 +56,7 @@ function CreateCabinForm({ cabinToEdit, closeModal }: CreateCabinFormProps) {
         {
           onSuccess: (data) => {
             reset();
+            onCloseModal?.();
           },
         }
       );
@@ -62,7 +64,10 @@ function CreateCabinForm({ cabinToEdit, closeModal }: CreateCabinFormProps) {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit)}
+      type={onCloseModal ? 'modal' : 'regular'}
+    >
       <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input
           type="text"
@@ -140,7 +145,12 @@ function CreateCabinForm({ cabinToEdit, closeModal }: CreateCabinFormProps) {
 
       <FormRow>
         <>
-          <Button $variation="secondary" type="reset" disabled={isWorking}>
+          <Button
+            onClick={() => onCloseModal?.()}
+            $variation="secondary"
+            type="reset"
+            disabled={isWorking}
+          >
             Cancel
           </Button>
           <Button disabled={isWorking}>
