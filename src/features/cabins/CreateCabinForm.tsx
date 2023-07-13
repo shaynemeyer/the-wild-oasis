@@ -7,8 +7,8 @@ import FileInput from '../../ui/FileInput';
 import Textarea from '../../ui/Textarea';
 import FormRow from '../../ui/FormRow';
 
-import { useCreatingCabin } from './useCreatingCabin';
-import { useEditingCabin } from './useEditingCabin';
+import { useCreateCabin } from './useCreateCabin';
+import { useEditCabin } from './useEditCabin';
 
 interface FormData extends Omit<cabinItem, 'id' | 'created_at' | 'image'> {
   image: FileList | string;
@@ -29,8 +29,8 @@ function CreateCabinForm({ cabinToEdit, closeModal }: CreateCabinFormProps) {
     });
   const { errors } = formState;
 
-  const { isCreating, createCabin } = useCreatingCabin();
-  const { isEditing, editCabin } = useEditingCabin();
+  const { isCreating, createCabin } = useCreateCabin();
+  const { isEditing, editCabin } = useEditCabin();
 
   const isWorking = isCreating || isEditing;
 
@@ -45,7 +45,6 @@ function CreateCabinForm({ cabinToEdit, closeModal }: CreateCabinFormProps) {
         { newCabinData: { ...data, image: imageData }, id: editId },
         {
           onSuccess: (data) => {
-            console.log(data);
             reset();
           },
         }
@@ -55,7 +54,6 @@ function CreateCabinForm({ cabinToEdit, closeModal }: CreateCabinFormProps) {
         { ...data, image: imageData },
         {
           onSuccess: (data) => {
-            console.log(data);
             reset();
           },
         }
