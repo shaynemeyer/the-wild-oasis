@@ -30,11 +30,14 @@ export async function createEditCabin(
   newCabin: cabinToUpdate,
   id: number | undefined
 ) {
+  console.log({newCabin}, {id})
   const hasImagePath = typeof newCabin.image === 'string' ? true : false;
-
+  console.log({hasImagePath});
+  
   const nameFromFile = !hasImagePath
     ? (newCabin?.image as File)?.name
     : undefined;
+  console.log({nameFromFile});
   const imageName = nameFromFile
     ? `${Math.random()}-${nameFromFile}`.replaceAll('/', '')
     : undefined;
@@ -60,11 +63,11 @@ export async function createEditCabin(
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     query = query
       .update({ ...newCabin, image: imagePath ? imagePath : null })
-      .eq('id', 'id');
+      .eq('id', id);
   }
 
   const { data, error } = await query.select().single();
-
+  console.log({data, error});
   if (error) {
     console.error(error);
     throw new Error('Cabins could not be created.');
