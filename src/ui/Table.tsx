@@ -1,3 +1,4 @@
+import { createContext, useContext } from 'react';
 import styled from 'styled-components';
 
 export const StyledTable = styled.div`
@@ -62,3 +63,61 @@ export const Empty = styled.p`
   text-align: center;
   margin: 2.4rem;
 `;
+
+interface TableContextType {
+  columns: string;
+}
+
+const TableContext = createContext<TableContextType | null>(null);
+
+interface TableProps {
+  columns: string;
+  children: React.ReactNode;
+}
+function Table({ columns, children }: TableProps) {
+  return (
+    <TableContext.Provider value={{ columns }}>
+      <StyledTable role="table">{children}</StyledTable>
+    </TableContext.Provider>
+  );
+}
+
+interface HeaderProps {
+  children: React.ReactNode;
+}
+
+function Header({ children }: HeaderProps) {
+  const { columns } = useContext(TableContext);
+
+  return (
+    <StyledHeader role="row" columns={columns}>
+      {children}
+    </StyledHeader>
+  );
+}
+function Row({ children }) {
+  const { columns } = useContext(TableContext);
+
+  return (
+    <StyledRow role="row" columns={columns}>
+      <> {children}</>
+    </StyledRow>
+  );
+}
+
+interface BodyProps {
+  data: any;
+  render: any;
+}
+
+function Body({ data, render }: BodyProps) {
+  if (!data.length) return <Empty>No data to show at the moment.</Empty>;
+  return <StyledBody>{data.map(render)}</StyledBody>;
+}
+
+Table.Header = Header;
+Table.Row = Row;
+Table.Body = Body;
+Table.Footer = Footer;
+
+export default Table;

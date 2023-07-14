@@ -35,8 +35,6 @@ function CreateCabinForm({ cabinToEdit, onCloseModal }: CreateCabinFormProps) {
   const isWorking = isCreating || isEditing;
 
   function onSubmit(data: FormData) {
-    console.log({ data });
-    console.log(typeof data.image);
     const imageData =
       typeof data.image === 'string' ? data.image : data.image[0];
 
