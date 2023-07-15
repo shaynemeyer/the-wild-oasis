@@ -1,11 +1,25 @@
 import { bookingApiResult } from "../types/bookings";
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
+interface BookingFilter {
+  field: string;
+  value: string; 
+  method?: string
+}
+interface GetBookingsProps {
+  filter: BookingFilter | null;
+  sortBy?: string
+}
 
-export async function getBookings() {
-  let { data: bookings, error } = await supabase
+export async function getBookings({filter, sortBy}:GetBookingsProps) {
+  let query = supabase
   .from('bookings')
   .select('*, cabins(name), guests(fullName, email)');
+
+  // filter
+  if (filter !== null) query = query[filter.method || 'eq'](filter.field, filter.value);
+
+  let { data: bookings, error } = await query;
   if (error) {
     console.error(error);
     throw new Error("Booking not found");
