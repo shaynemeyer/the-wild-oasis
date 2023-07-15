@@ -6,6 +6,7 @@ import Table from "../../ui/Table";
 
 import { formatCurrency } from "../../utils/helpers";
 import { formatDistanceFromNow } from "../../utils/helpers";
+import { bookingApiResult } from "../../types/bookings";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -34,6 +35,10 @@ const Amount = styled.div`
   font-weight: 500;
 `;
 
+interface BookingRowProps {
+  booking: bookingApiResult
+}
+
 function BookingRow({
   booking: {
     id: bookingId,
@@ -47,9 +52,9 @@ function BookingRow({
     guests: { fullName: guestName, email },
     cabins: { name: cabinName },
   },
-}) {
+}:BookingRowProps) {
   const statusToTagName = {
-    unconfirmed: "blue",
+    "unconfirmed" : "blue",
     "checked-in": "green",
     "checked-out": "silver",
   };
@@ -76,9 +81,9 @@ function BookingRow({
         </span>
       </Stacked>
 
-      <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
+      <Tag type={statusToTagName[status as keyof typeof statusToTagName]}>{status?.replace("-", " ")}</Tag>
 
-      <Amount>{formatCurrency(totalPrice)}</Amount>
+      <Amount>{formatCurrency(totalPrice!)}</Amount>
     </Table.Row>
   );
 }

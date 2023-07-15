@@ -8,3 +8,7 @@ interface cabinItem {
   name: string;
   regularPrice?: number;
 }
+
+interface cabinApiResult extends cabinItem {
+  id: number;
+}

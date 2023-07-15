@@ -1,7 +1,20 @@
+import { bookingApiResult } from "../types/bookings";
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
 
-export async function getBooking(id) {
+export async function getBookings() {
+  let { data: bookings, error } = await supabase
+  .from('bookings')
+  .select('*, cabins(name), guests(fullName, email)');
+  if (error) {
+    console.error(error);
+    throw new Error("Booking not found");
+  }
+
+  return bookings as Array<bookingApiResult>;
+}
+
+export async function getBooking(id:number) {
   const { data, error } = await supabase
     .from("bookings")
     .select("*, cabins(*), guests(*)")
