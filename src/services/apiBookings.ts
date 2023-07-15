@@ -8,7 +8,7 @@ interface BookingFilter {
 }
 interface GetBookingsProps {
   filter: BookingFilter | null;
-  sortBy?: string
+  sortBy?: {field: string, direction: string}
 }
 
 export async function getBookings({filter, sortBy}:GetBookingsProps) {
@@ -17,8 +17,14 @@ export async function getBookings({filter, sortBy}:GetBookingsProps) {
   .select('*, cabins(name), guests(fullName, email)');
 
   // filter
-  if (filter !== null) query = query[filter.method || 'eq'](filter.field, filter.value);
+  if (filter) query = query[filter.method || 'eq'](filter.field, filter.value);
 
+  // sort
+  if (sortBy)  {
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === 'asc'
+    });
+  }
   let { data: bookings, error } = await query;
   if (error) {
     console.error(error);
