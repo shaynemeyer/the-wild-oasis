@@ -11,12 +11,12 @@ export const StyledTable = styled.div`
 `;
 
 interface CommonRowProps {
-  columns: number;
+  $columns: number;
 }
 
 export const CommonRow = styled.div<CommonRowProps>`
   display: grid;
-  grid-template-columns: ${(props: CommonRowProps) => props.columns};
+  grid-template-columns: ${(props: CommonRowProps) => props.$columns};
   column-gap: 2.4rem;
   align-items: center;
   transition: none;
@@ -65,18 +65,18 @@ export const Empty = styled.p`
 `;
 
 interface TableContextType {
-  columns: string;
+  $columns: string;
 }
 
 const TableContext = createContext<TableContextType | null>(null);
 
 interface TableProps {
-  columns: string;
+  $columns: string;
   children: React.ReactNode;
 }
-function Table({ columns, children }: TableProps) {
+function Table({ $columns, children }: TableProps) {
   return (
-    <TableContext.Provider value={{ columns }}>
+    <TableContext.Provider value={{ $columns }}>
       <StyledTable role="table">{children}</StyledTable>
     </TableContext.Provider>
   );
@@ -87,19 +87,19 @@ interface HeaderProps {
 }
 
 function Header({ children }: HeaderProps) {
-  const { columns } = useContext(TableContext);
+  const { $columns } = useContext(TableContext);
 
   return (
-    <StyledHeader role="row" columns={columns}>
+    <StyledHeader role="row" $columns={$columns}>
       {children}
     </StyledHeader>
   );
 }
 function Row({ children }) {
-  const { columns } = useContext(TableContext);
+  const { $columns } = useContext(TableContext);
 
   return (
-    <StyledRow role="row" columns={columns}>
+    <StyledRow role="row" $columns={$columns}>
       <> {children}</>
     </StyledRow>
   );
