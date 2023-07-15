@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface StyleSelectProps {
-  type: string;
+  type?: string;
 }
 
 export const StyledSelect = styled.select<StyleSelectProps>`
@@ -18,9 +18,16 @@ export const StyledSelect = styled.select<StyleSelectProps>`
   box-shadow: var(--shadow-sm);
 `;
 
-function Select({ options, value, onChange, ...props }) {
+interface SelectProps {
+  options: Array<{ label: string; value: string }>;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  type?: string;
+}
+
+function Select({ options, value, onChange, type, ...props }: SelectProps) {
   return (
-    <StyledSelect value={value} onChange={onChange} {...props}>
+    <StyledSelect value={value} onChange={onChange} {...props} type={type}>
       {options.map((option) => (
         <option value={option.value} key={option.value}>
           {option.label}
