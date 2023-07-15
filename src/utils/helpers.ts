@@ -25,7 +25,7 @@ export const formatDistanceFromNow = (dateStr: string): string => {
 export const getToday = function ({
   options = {},
 }: {
-  options: { end?: number };
+  options?: { end?: number };
 }) {
   const today = new Date();
 
