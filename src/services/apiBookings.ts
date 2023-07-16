@@ -22,7 +22,10 @@ export async function getBookings({ filter, sortBy, page }: GetBookingsProps) {
     );
 
   // filter
-  if (filter) query = query[filter.method || 'eq'](filter.field, filter.value);
+  if (filter) {
+   
+    query = query[filter.method || 'eq'](filter.field, filter.value);
+  }
 
   // sort
   if (sortBy) {
@@ -38,6 +41,7 @@ export async function getBookings({ filter, sortBy, page }: GetBookingsProps) {
   }
 
   const { data: bookings, error, count } = await query;
+
   if (error) {
     console.error(error);
     throw new Error('Booking not found');
