@@ -1,4 +1,4 @@
-import { guestItem } from "./guests";
+import { guestItem } from './guests';
 
 interface bookingItem {
   id: number;
@@ -18,7 +18,15 @@ interface bookingItem {
   guestId?: number;
 }
 
-export interface bookingApiResult extends bookingItem {
-  cabins: {name: string };
-  guests: {fullName: string, email:string};
+export interface bookingApiResult {
+  id: number;
+  created_at?: string;
+  startDate: string;
+  endDate: string;
+  numNights?: number;
+  numGuests?: number;
+  totalPrice?: number;
+  status?: string;
+  cabins: { name: string };
+  guests: { fullName: string; email: string };
 }
