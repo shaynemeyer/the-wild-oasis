@@ -1,6 +1,4 @@
-import { guestItem } from './guests';
-
-interface bookingItem {
+export interface bookingItem {
   id: number;
   startDate: string;
   endDate: string;
@@ -26,6 +24,8 @@ export interface bookingApiResult {
   numNights?: number;
   numGuests?: number;
   totalPrice?: number;
+  hasBreakfast?: boolean;
+  isPaid?: boolean;
   status?: string;
   cabins: { name: string };
   guests: { fullName: string; email: string };
