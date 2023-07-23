@@ -23,14 +23,14 @@ const StyledConfirmDelete = styled.div`
 interface ConfirmDeleteProps {
   resourceName: string;
   onConfirm: () => void;
-  disabled: boolean;
+  disabled?: boolean;
   onCloseModal?: () => void;
 }
 
 function ConfirmDelete({
   resourceName,
   onConfirm,
-  disabled,
+  disabled = false,
   onCloseModal,
 }: ConfirmDeleteProps) {
   return (
