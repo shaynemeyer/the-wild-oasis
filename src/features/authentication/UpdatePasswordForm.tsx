@@ -1,10 +1,10 @@
-import { useForm } from "react-hook-form";
-import Button from "../../ui/Button";
-import Form from "../../ui/Form";
-import FormRow from "../../ui/FormRow";
-import Input from "../../ui/Input";
+import { useForm } from 'react-hook-form';
+import Button from '../../ui/Button';
+import Form from '../../ui/Form';
+import FormRow from '../../ui/FormRow';
+import Input from '../../ui/Input';
 
-import { useUpdateUser } from "./useUpdateUser";
+import { useUpdateUser } from './useUpdateUser';
 
 function UpdatePasswordForm() {
   const { register, handleSubmit, formState, getValues, reset } = useForm();
@@ -12,26 +12,26 @@ function UpdatePasswordForm() {
 
   const { updateUser, isUpdating } = useUpdateUser();
 
-  function onSubmit({ password }) {
+  function onSubmit({ password }: { password: string }) {
     updateUser({ password }, { onSuccess: reset });
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={() => void handleSubmit(onSubmit)}>
       <FormRow
         label="Password (min 8 characters)"
-        error={errors?.password?.message}
+        error={errors?.password?.message as string}
       >
         <Input
           type="password"
           id="password"
           autoComplete="current-password"
           disabled={isUpdating}
-          {...register("password", {
-            required: "This field is required",
+          {...register('password', {
+            required: 'This field is required',
             minLength: {
               value: 8,
-              message: "Password needs a minimum of 8 characters",
+              message: 'Password needs a minimum of 8 characters',
             },
           })}
         />
@@ -39,22 +39,22 @@ function UpdatePasswordForm() {
 
       <FormRow
         label="Confirm password"
-        error={errors?.passwordConfirm?.message}
+        error={errors?.passwordConfirm?.message as string}
       >
         <Input
           type="password"
           autoComplete="new-password"
           id="passwordConfirm"
           disabled={isUpdating}
-          {...register("passwordConfirm", {
-            required: "This field is required",
+          {...register('passwordConfirm', {
+            required: 'This field is required',
             validate: (value) =>
-              getValues().password === value || "Passwords need to match",
+              getValues().password === value || 'Passwords need to match',
           })}
         />
       </FormRow>
       <FormRow>
-        <Button onClick={reset} type="reset" variation="secondary">
+        <Button onClick={reset} type="reset" $variation="secondary">
           Cancel
         </Button>
         <Button disabled={isUpdating}>Update password</Button>
