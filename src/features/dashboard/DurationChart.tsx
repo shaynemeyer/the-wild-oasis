@@ -176,7 +176,6 @@ function DurationChart({ confirmedStays }) {
             layout="vertical"
             iconSize={15}
             iconType="circle"
-            width="30%"
           />
         </PieChart>
       </ResponsiveContainer>

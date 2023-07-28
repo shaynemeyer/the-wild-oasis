@@ -87,7 +87,7 @@ interface HeaderProps {
 }
 
 function Header({ children }: HeaderProps) {
-  const { $columns } = useContext(TableContext);
+  const { $columns } = useContext(TableContext)!;
 
   return (
     <StyledHeader role="row" $columns={$columns}>
