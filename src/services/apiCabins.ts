@@ -22,7 +22,7 @@ export async function deleteCabin(id: number) {
   return data;
 }
 
-interface cabinToUpdate extends Omit<cabinItem, 'id' | 'image'> {
+export interface cabinToUpdate extends Omit<cabinItem, 'id' | 'image'> {
   image: File | string;
 }
 

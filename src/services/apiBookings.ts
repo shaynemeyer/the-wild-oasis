@@ -118,7 +118,7 @@ export async function getStaysTodayActivity() {
   return data;
 }
 
-export async function updateBooking(id, obj) {
+export async function updateBooking(id: number, obj: unknown) {
   const { data, error } = await supabase
     .from('bookings')
     .update(obj)
@@ -130,10 +130,10 @@ export async function updateBooking(id, obj) {
     console.error(error);
     throw new Error('Booking could not be updated');
   }
-  return data;
+  return data as bookingApiResult;
 }
 
-export async function deleteBooking(id) {
+export async function deleteBooking(id: number) {
   // REMEMBER RLS POLICIES
   const { data, error } = await supabase.from('bookings').delete().eq('id', id);
 

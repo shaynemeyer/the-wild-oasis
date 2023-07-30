@@ -10,32 +10,32 @@ export function useGuests() {
 
   // pagination
   const page = !searchParams.get('page') ? 1 : Number(searchParams.get('page'));
-  
+
   const {
     data: { guests, count } = {},
     isLoading,
     error,
-  } = useQuery<{ guests: Array<guestItem>, count: number}>({
+  } = useQuery<{ guests: Array<guestItem>; count: number }>({
     queryKey: ['guests', page],
-    queryFn: getGuests,
+    queryFn: () => getGuests({ page }),
   });
 
-    // pre-fetching
-    const pageCount = Math.ceil(count / PAGE_SIZE);
+  // pre-fetching
+  const pageCount = count ? Math.ceil(count / PAGE_SIZE) : 0;
 
-    if (page < pageCount) {
-      void queryClient.prefetchQuery({
-        queryKey: ['guests', page + 1],
-        queryFn: () => getGuests({ page: page + 1 }),
-      });
-    }
-  
-    if (page > 1) {
-      void queryClient.prefetchQuery({
-        queryKey: ['guests', page - 1],
-        queryFn: () => getGuests({ page: page - 1 }),
-      });
-    }
+  if (page < pageCount) {
+    void queryClient.prefetchQuery({
+      queryKey: ['guests', page + 1],
+      queryFn: () => getGuests({ page: page + 1 }),
+    });
+  }
+
+  if (page > 1) {
+    void queryClient.prefetchQuery({
+      queryKey: ['guests', page - 1],
+      queryFn: () => getGuests({ page: page - 1 }),
+    });
+  }
 
   return { isLoading, error, guests, count };
 }

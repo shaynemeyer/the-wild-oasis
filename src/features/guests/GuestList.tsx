@@ -3,6 +3,7 @@ import { useGuests } from '../../features/guests/useGuests';
 import Pagination from '../../ui/Pagination';
 import Spinner from '../../ui/Spinner';
 import GuestListItem from './GuestListItem';
+import { guestItem } from '../../types/guests';
 
 const StyledGuestList = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -29,7 +30,7 @@ const PaginationContainer = styled.div`
 `;
 
 interface GuestListProps {
-  onClick?: () => void
+  onClick?: () => void;
 }
 
 function GuestList({ onClick }: GuestListProps) {
@@ -39,15 +40,25 @@ function GuestList({ onClick }: GuestListProps) {
   if (count === undefined) return null;
   if (count === 0) return <p>No guests found...</p>;
 
+  console.log({ guests, count });
+
   return (
     <StyledGuestList>
       <List>
-        {guests?.map((guest) => (
+        {(guests as Array<guestItem>)?.map((guest) => (
           <GuestListItem
             key={guest.id}
             guest={guest}
             // For case where GuestList was used without the onClick function
-            onClick={onClick ? onClick : () => {}}
+            onClick={
+              onClick
+                ? onClick
+                : () => {
+                    if (guest) {
+                      console.log(`Clicked ${guest.id as unknown as string}`);
+                    }
+                  }
+            }
           />
         ))}
       </List>
