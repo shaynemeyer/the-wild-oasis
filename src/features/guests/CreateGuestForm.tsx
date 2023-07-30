@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 
-import { useCountries } from 'hooks/useCountries';
-import { useCreateGuest } from 'features/guests/useCreateGuest';
+import { useCountries } from '../../hooks/useCountries';
+import { useCreateGuest } from './useCreateGuest';
 import Spinner from '../../ui/Spinner';
 import Form from '../../ui/Form';
 import FormRow from '../../ui/FormRow';
@@ -56,7 +56,7 @@ function CreateGuestForm({ onSuccessNewGuest, closeModal }) {
 
   return (
     <Form type="modal" onSubmit={handleSubmit(onSubmit)}>
-      <FormRow label="Full name" error={errors?.fullName?.message}>
+      <FormRow label="Full name" error={errors?.fullName?.message as string}>
         <Input
           type="text"
           id="fullName"
@@ -65,7 +65,7 @@ function CreateGuestForm({ onSuccessNewGuest, closeModal }) {
         />
       </FormRow>
 
-      <FormRow label="Email address" error={errors?.email?.message}>
+      <FormRow label="Email address" error={errors?.email?.message as string}>
         <Input
           type="email"
           id="email"
@@ -81,7 +81,7 @@ function CreateGuestForm({ onSuccessNewGuest, closeModal }) {
         />
       </FormRow>
 
-      <FormRow label="Nationality" error={errors?.nationality?.message}>
+      <FormRow label="Nationality" error={errors?.nationality?.message as string}>
         <FormSelect
           id="nationality"
           disabled={isCreating}
@@ -93,7 +93,7 @@ function CreateGuestForm({ onSuccessNewGuest, closeModal }) {
         ></FormSelect>
       </FormRow>
 
-      <FormRow label="National ID" error={errors?.nationalID?.message}>
+      <FormRow label="National ID" error={errors?.nationalID?.message as string}>
         <Input
           type="text"
           disabled={isCreating}
@@ -104,7 +104,7 @@ function CreateGuestForm({ onSuccessNewGuest, closeModal }) {
 
       <FormRow>
         <Button
-          variation="secondary"
+          $variation="secondary"
           type="reset"
           disabled={isCreating}
           onClick={() => closeModal?.()}

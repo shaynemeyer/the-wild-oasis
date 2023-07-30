@@ -19,6 +19,7 @@ export const StyledSelect = styled.select<StyleSelectProps>`
 `;
 
 interface SelectProps {
+  id?: string;
   options: Array<{ label: string; value: string }>;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
