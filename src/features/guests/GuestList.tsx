@@ -33,7 +33,7 @@ interface GuestListProps {
 }
 
 function GuestList({ onClick }: GuestListProps) {
-  const { isLoading, guests, count } = useGuests();
+  const { isLoading, guests, count } = useGuests()!;
 
   if (isLoading) return <Spinner />;
   if (count === undefined) return null;
@@ -42,7 +42,7 @@ function GuestList({ onClick }: GuestListProps) {
   return (
     <StyledGuestList>
       <List>
-        {guests.map((guest) => (
+        {guests?.map((guest) => (
           <GuestListItem
             key={guest.id}
             guest={guest}

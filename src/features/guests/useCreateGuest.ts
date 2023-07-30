@@ -6,6 +6,5 @@ export function useCreateGuest() {
 
   return {
     isLoading: false,
-
   }
 }

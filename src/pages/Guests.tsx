@@ -1,5 +1,4 @@
-import GuestTable from '../features/guests/GuestTable';
-import GuestTableOperations from '../features/guests/GuestTableOperations';
+import GuestList from '../features/guests/GuestList';
 import Heading from '../ui/Heading';
 import Row from '../ui/Row';
 
@@ -8,11 +7,10 @@ function Guests() {
     <>
       <Row type="horizontal">
         <Heading as="h1">All guests</Heading>
-        <GuestTableOperations />
       </Row>
 
       <Row>
-        <GuestTable />
+        <GuestList/>
         
       </Row>
     </>

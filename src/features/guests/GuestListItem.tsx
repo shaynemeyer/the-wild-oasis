@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Flag } from '../../ui/Flag';
+import { guestItem } from '../../types/guests';
 
 const StyledGuestListItem = styled.li`
   display: grid;
@@ -26,12 +27,7 @@ const ID = styled.div`
 `;
 
 interface GuestListItemProps {
-  guest: {
-    countryFlag: string;
-    nationality: string;
-    fullName: string;
-    nationalID: string;
-  };
+  guest: guestItem;
   onClick: (guest: any) => void;
 }
 
