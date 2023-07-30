@@ -16,9 +16,9 @@ const StyledDashboardLayout = styled.div`
 `;
 
 function DashboardLayout() {
-  const { bookings, isLoadingBookings } = useRecentBookings();
-  const { stays, confirmedStays, isLoadingStays, numDays } = useRecentStays();
-  const { cabins, isLoading: isLoadingCabins } = useCabins();
+  const { bookings, isLoadingBookings } = useRecentBookings()!;
+  const { confirmedStays, isLoadingStays, numDays } = useRecentStays()!;
+  const { cabins, isLoading: isLoadingCabins } = useCabins()!;
 
   if (isLoadingBookings || isLoadingStays || isLoadingCabins)
     return <Spinner />;

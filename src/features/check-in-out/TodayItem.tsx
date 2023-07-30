@@ -20,12 +20,19 @@ const StyledTodayItem = styled.li`
   }
 `;
 
-const Guest = styled.div`
-  font-weight: 500;
-`;
+interface TodayItemProps {
+  activity: {
+    id: string;
+    status: string;
+    guests: {
+      countryFlag: string;
+      country: string;
+    }
+  }
+}
 
-function TodayItem({ activity }) {
-  const { id, status, guests, numNights } = activity;
+function TodayItem({ activity }: TodayItemProps) {
+  const { id, status, guests } = activity;
 
   return (
     <StyledTodayItem>

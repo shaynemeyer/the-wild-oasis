@@ -51,7 +51,7 @@ function BookingDetail() {
         <HeadingGroup>
           <Heading as="h1">Booking #{bookingId}</Heading>
           <Tag type={statusToTagName[status as keyof typeof statusToTagName]}>
-            {status.replace('-', ' ')}
+            {status?.replace('-', ' ')}
           </Tag>
         </HeadingGroup>
         <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
@@ -67,13 +67,12 @@ function BookingDetail() {
         )}
 
         {status === 'checked-in' && (
-          <Button
-            icon={<HiArrowUpOnSquare />}
+          <button
             onClick={() => checkout(Number(bookingId))}
             disabled={isCheckingOut}
           >
-            Check out
-          </Button>
+           <HiArrowUpOnSquare /> Check out
+          </button>
         )}
 
         <Modal>

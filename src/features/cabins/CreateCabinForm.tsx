@@ -42,7 +42,7 @@ function CreateCabinForm({ cabinToEdit, onCloseModal }: CreateCabinFormProps) {
       editCabin(
         { newCabinData: { ...data, image: imageData }, id: editId },
         {
-          onSuccess: (data) => {
+          onSuccess: () => {
             reset();
             onCloseModal?.();
           },

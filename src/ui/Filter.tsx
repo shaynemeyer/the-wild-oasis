@@ -12,7 +12,7 @@ const StyledFilter = styled.div`
 `;
 
 interface FilterButtonProps {
-  active?: string;
+  active?: boolean;
 }
 
 const FilterButton = styled.button<FilterButtonProps>`

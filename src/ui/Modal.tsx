@@ -87,7 +87,7 @@ interface OpenProps {
 }
 
 function Open({ children, opens: opensWindowName }: OpenProps) {
-  const { open } = useContext(ModalContext);
+  const { open } = useContext(ModalContext)!;
 
   return cloneElement(children, { onClick: () => open(opensWindowName) });
 }
@@ -98,7 +98,7 @@ interface WindowProps {
 }
 
 function Window({ children, name }: WindowProps) {
-  const { openName, close } = useContext(ModalContext);
+  const { openName, close } = useContext(ModalContext)!;
   const ref = useOutsideClick(close);
 
   if (name !== openName) return null;

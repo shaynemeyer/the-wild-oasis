@@ -12,8 +12,12 @@ export async function getSettings() {
   return data as SettingItem;
 }
 
+interface UpdateSettingProp {
+  [key:string]: string
+}
+
 // We expect a newSetting object that looks like {setting: newValue}
-export async function updateSetting(newSetting) {
+export async function updateSetting(newSetting: UpdateSettingProp) {
   const { data, error } = await supabase
     .from('settings')
     .update(newSetting)

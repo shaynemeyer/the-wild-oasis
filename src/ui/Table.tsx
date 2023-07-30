@@ -11,7 +11,7 @@ export const StyledTable = styled.div`
 `;
 
 interface CommonRowProps {
-  $columns: number;
+  $columns: string;
 }
 
 export const CommonRow = styled.div<CommonRowProps>`
@@ -95,12 +95,12 @@ function Header({ children }: HeaderProps) {
     </StyledHeader>
   );
 }
-function Row({ children }) {
-  const { $columns } = useContext(TableContext);
+function Row({ children }: {children: React.ReactNode}) {
+  const { $columns } = useContext(TableContext)!;
 
   return (
     <StyledRow role="row" $columns={$columns}>
-      <> {children}</>
+      <>{children}</>
     </StyledRow>
   );
 }

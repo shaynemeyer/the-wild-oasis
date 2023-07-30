@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useGuests } from 'features/guests/useGuests';
+import { useGuests } from '../../features/guests/useGuests';
 import Pagination from '../../ui/Pagination';
 import Spinner from '../../ui/Spinner';
 import GuestListItem from './GuestListItem';
@@ -28,7 +28,11 @@ const PaginationContainer = styled.div`
   }
 `;
 
-function GuestList({ onClick }) {
+interface GuestListProps {
+  onClick?: () => void
+}
+
+function GuestList({ onClick }: GuestListProps) {
   const { isLoading, guests, count } = useGuests();
 
   if (isLoading) return <Spinner />;

@@ -7,7 +7,14 @@ import {
 import Stat from './Stat';
 import { formatCurrency } from '../../utils/helpers';
 
-function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
+interface StatsProps {
+  bookings:any; 
+  confirmedStays:number; 
+  numDays:number; 
+  cabinCount: number;
+}
+
+function Stats({ bookings, confirmedStays, numDays, cabinCount }: StatsProps) {
   const numBookings = bookings.length;
   const sales = bookings.reduce((acc: number, cur) => acc + cur.totalPrice, 0);
   const checkins = confirmedStays.length;

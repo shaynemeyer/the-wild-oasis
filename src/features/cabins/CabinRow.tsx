@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { formatCurrency } from '../../utils/helpers';
-import { useState } from 'react';
 import CreateCabinForm from './CreateCabinForm';
 import { useDeleteCabin } from './useDeleteCabin';
 import { HiPencil, HiSquare2Stack, HiTrash } from 'react-icons/hi2';
@@ -62,13 +61,13 @@ function CabinRow({ cabin }: CabinRowProps) {
       maxCapacity,
       discount,
       description,
-      image,
+      image: image as string,
     });
   }
 
   return (
     <Table.Row>
-      {image ? <Img src={image} /> : <span>&mdash;</span>}
+      {image ? <Img src={image as string} /> : <span>&mdash;</span>}
       <Cabin>{name}</Cabin>
       <div>Fits up to {maxCapacity} guests</div>
       {regularPrice ? (

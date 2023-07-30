@@ -1,3 +1,4 @@
+import { UserAttributes } from '@supabase/supabase-js';
 import supabase, { supabaseUrl } from './supabase';
 
 interface SignupProps {
@@ -67,7 +68,7 @@ export async function updateCurrentUser({
   avatar?: File;
 }) {
   // 1. Update password OR fullName
-  let updateData;
+  let updateData:UserAttributes = {};
   if (password) updateData = { password };
   if (fullName) updateData = { data: { fullName } };
 
