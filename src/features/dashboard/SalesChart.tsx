@@ -24,7 +24,12 @@ const StyledSalesChart = styled(DashboardBox)`
   }
 `;
 
-function SalesChart({ bookings, numDays } : {bookings: Array<BookingAfterDate>, numDays: number}) {
+interface SalesChartProps {
+  bookings: Array<BookingAfterDate>, 
+  numDays: number
+}
+
+function SalesChart({ bookings, numDays }: SalesChartProps) {
   const { isDarkMode } = useDarkMode()!;
 
   const allDates = eachDayOfInterval({

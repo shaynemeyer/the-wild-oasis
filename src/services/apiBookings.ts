@@ -13,6 +13,22 @@ interface GetBookingsProps {
   page: number;
 }
 
+export interface GetBookingsItem {
+  id: number;
+  created_at: string;
+  startDate?: string;
+  endDate?: string;
+  numNights: number;
+  numGuests: number;
+  status: string;
+  totalPrice: number;
+  cabins: Array<{ name: string }>;
+  guests: Array<{
+    fullName: string;
+    email: string;
+  }>;
+}
+
 export async function getBookings({ filter, sortBy, page }: GetBookingsProps) {
   let query = supabase
     .from('bookings')
@@ -106,6 +122,11 @@ export async function getStaysAfterDate(date: string) {
   return data as Array<GuestStay>;
 }
 
+export interface TodaysActivity extends bookingItem {
+  fullName: string;
+  nationality: string;
+  countryFlag: string;
+}
 // Activity means that there is a check in or a check out today
 export async function getStaysTodayActivity() {
   const { data, error } = await supabase
@@ -124,7 +145,7 @@ export async function getStaysTodayActivity() {
     console.error(error);
     throw new Error('Bookings could not get loaded');
   }
-  return data;
+  return data as Array<TodaysActivity>;
 }
 
 export async function updateBooking(id: number, obj: unknown) {

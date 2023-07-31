@@ -22,7 +22,7 @@ export function useBookings() {
   const page = !searchParams.get('page') ? 1 : Number(searchParams.get('page'));
 
   const {
-    data: { bookings, count } = {},
+    data: { bookings, count },
     isLoading,
     error,
   } = useQuery<{ bookings: Array<bookingApiResult>; count: number }>({
