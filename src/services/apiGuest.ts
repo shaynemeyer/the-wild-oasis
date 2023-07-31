@@ -35,3 +35,33 @@ export async function getGuests({ page }: GetGuestsProps) {
 
   return { guests, error, count };
 }
+
+export async function createGuestApi(
+  newGuest: any,
+) {
+  const { data: createdGuest, error} = await supabase.from('guests').insert([{...newGuest}]).select().single();
+
+  if (error) {
+    console.log(error); 
+    throw new Error("Guest could not be created");
+  }
+
+  return createdGuest as guestItem;
+}
+
+interface EditGuestApiProps {
+  updateGuestData: guestItem; 
+  id: number;
+}
+export async function editGuestApi({updateGuestData, id}: EditGuestApiProps) {
+  const { data: updatedGuest, error } = await supabase.from('guests').update({ ...updateGuestData})
+  .eq('id', id).select().single();
+
+  if (error) {
+    console.error(error);
+    throw new Error('Guest could not be updated');
+  }
+
+  return updatedGuest as guestItem;
+}
+

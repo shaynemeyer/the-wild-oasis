@@ -9,6 +9,7 @@ import {
   Tooltip,
 } from 'recharts';
 import { useDarkMode } from '../../context/DarkModeContext';
+import { GuestStay } from '../../services/apiBookings';
 
 const ChartBox = styled.div`
   /* Box */
@@ -28,7 +29,13 @@ const ChartBox = styled.div`
   }
 `;
 
-const startDataLight = [
+type StartData = {
+  duration: string;
+  value: number;
+  color: string;
+}
+
+const startDataLight: Array<StartData> = [
   {
     duration: '1 night',
     value: 0,
@@ -71,7 +78,7 @@ const startDataLight = [
   },
 ];
 
-const startDataDark = [
+const startDataDark: Array<StartData> = [
   {
     duration: '1 night',
     value: 0,
@@ -114,18 +121,18 @@ const startDataDark = [
   },
 ];
 
-function prepareData(startData, stays) {
+function prepareData(startData: Array<StartData>, stays: Array<GuestStay>) {
   // A bit ugly code, but sometimes this is what it takes when working with real data 😅
 
-  function incArrayValue(arr, field) {
-    return arr.map((obj) =>
+  function incArrayValue(arr: Array<StartData>, field: string) {
+    return arr.map((obj: StartData) =>
       obj.duration === field ? { ...obj, value: obj.value + 1 } : obj
     );
   }
 
   const data = stays
-    .reduce((arr, cur) => {
-      const num = cur.numNights;
+    .reduce((arr: any, cur: GuestStay) => {
+      const num = Number(cur.numNights);
       if (num === 1) return incArrayValue(arr, '1 night');
       if (num === 2) return incArrayValue(arr, '2 nights');
       if (num === 3) return incArrayValue(arr, '3 nights');
@@ -136,12 +143,16 @@ function prepareData(startData, stays) {
       if (num >= 21) return incArrayValue(arr, '21+ nights');
       return arr;
     }, startData)
-    .filter((obj) => obj.value > 0);
+    .filter((obj: StartData) => obj.value > 0);
 
   return data;
 }
 
-function DurationChart({ confirmedStays }) {
+interface DurationChartProps {
+  confirmedStays: Array<GuestStay>;
+}
+
+function DurationChart({ confirmedStays }: DurationChartProps) {
   const { isDarkMode } = useDarkMode()!;
   const startData = isDarkMode ? startDataDark : startDataLight;
   const data = prepareData(startData, confirmedStays);

@@ -1,4 +1,4 @@
-import { bookingApiResult } from '../types/bookings';
+import { bookingApiResult, bookingItem } from '../types/bookings';
 import { PAGE_SIZE } from '../utils/constants';
 import { getToday } from '../utils/helpers';
 import supabase from './supabase';
@@ -64,6 +64,11 @@ export async function getBooking(id: number) {
   return data as bookingApiResult;
 }
 
+export interface BookingAfterDate {
+  created_at: string;
+  totalPrice: number;
+  extrasPrice: number;
+}
 // Returns all BOOKINGS that are were created after the given date. Useful to get bookings created in the last 30 days, for example.
 export async function getBookingsAfterDate(date: string) {
   const { data, error } = await supabase
@@ -77,7 +82,11 @@ export async function getBookingsAfterDate(date: string) {
     throw new Error('Bookings could not get loaded');
   }
 
-  return data;
+  return data as Array<BookingAfterDate>;
+}
+
+export interface GuestStay extends bookingItem {
+  fullName?: string;
 }
 
 // Returns all STAYS that are were created after the given date
@@ -94,7 +103,7 @@ export async function getStaysAfterDate(date: string) {
     throw new Error('Bookings could not get loaded');
   }
 
-  return data;
+  return data as Array<GuestStay>;
 }
 
 // Activity means that there is a check in or a check out today

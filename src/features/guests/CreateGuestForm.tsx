@@ -2,41 +2,46 @@ import { useForm } from 'react-hook-form';
 
 import { useCountries } from '../../hooks/useCountries';
 import { useCreateGuest } from './useCreateGuest';
-import Spinner from '../../ui/Spinner';
+// import Spinner from '../../ui/Spinner';
 import Form from '../../ui/Form';
 import FormRow from '../../ui/FormRow';
 import Input from '../../ui/Input';
 import Select from '../../ui/Select';
 import Button from '../../ui/Button';
 import styled from 'styled-components';
+import { CountryCode } from '../../data/countryCodes';
+import { guestItem } from '../../types/guests';
 
 const FormSelect = styled(Select)`
   width: 100%;
 `;
 
-// With NEW modal
-// function CreateGuest({ onSuccessNewGuest, setIsOpenForm }) {
-function CreateGuestForm({ onSuccessNewGuest, closeModal }) {
-  const { isLoading: isLoadingCountries, countries } = useCountries();
-  const { isLoading: isCreating, mutate: createGuest } = useCreateGuest();
+interface CreateGuestFormProps {
+  onSuccessNewGuest?: (guest: guestItem) => void;
+  closeModal?: () => void;
+}
 
-  const { register, handleSubmit, formState } = useForm();
+function CreateGuestForm({ onSuccessNewGuest, closeModal }: CreateGuestFormProps) {
+  const { countries } = useCountries();
+  const { isCreatingGuest, createGuest } = useCreateGuest()!;
+
+  const { register, handleSubmit, formState } = useForm<guestItem>();
   const { errors } = formState;
 
-  if (isLoadingCountries) return <Spinner />;
+  // if (isLoadingCountries) return <Spinner />;
 
-  const countryOptions = countries.map((country) => {
+  const countryOptions = countries.map((country: CountryCode) => {
     return {
-      value: country.name,
-      label: country.name,
+      value: country.code,
+      label: country.label,
     };
   });
-  console.log(countryOptions);
 
-  const onSubmit = function (data) {
-    const countryFlag = countries.find(
-      (country) => country.name === data.nationality
-    ).flag;
+  const onSubmit = function (data: guestItem) {
+    const countryCode = countries.find(
+      (country) => country.label === data.nationality
+    );
+    const countryFlag = countryCode ? `https://flagcdn.com/${countryCode}.svg` : undefined;
 
     createGuest(
       { ...data, countryFlag },
@@ -60,7 +65,7 @@ function CreateGuestForm({ onSuccessNewGuest, closeModal }) {
         <Input
           type="text"
           id="fullName"
-          disabled={isCreating}
+          disabled={isCreatingGuest}
           {...register('fullName', { required: 'This field is required' })}
         />
       </FormRow>
@@ -69,7 +74,7 @@ function CreateGuestForm({ onSuccessNewGuest, closeModal }) {
         <Input
           type="email"
           id="email"
-          disabled={isCreating}
+          disabled={isCreatingGuest}
           {...register('email', {
             required: 'Email address is required',
             pattern: {
@@ -84,7 +89,7 @@ function CreateGuestForm({ onSuccessNewGuest, closeModal }) {
       <FormRow label="Nationality" error={errors?.nationality?.message as string}>
         <FormSelect
           id="nationality"
-          disabled={isCreating}
+          disabled={isCreatingGuest}
           options={[
             { value: '', label: 'Select nationality...' },
             ...countryOptions,
@@ -96,7 +101,7 @@ function CreateGuestForm({ onSuccessNewGuest, closeModal }) {
       <FormRow label="National ID" error={errors?.nationalID?.message as string}>
         <Input
           type="text"
-          disabled={isCreating}
+          disabled={isCreatingGuest}
           id="nationalID"
           {...register('nationalID', { required: 'This field is required' })}
         />
@@ -106,12 +111,12 @@ function CreateGuestForm({ onSuccessNewGuest, closeModal }) {
         <Button
           $variation="secondary"
           type="reset"
-          disabled={isCreating}
+          disabled={isCreatingGuest}
           onClick={() => closeModal?.()}
         >
           Cancel
         </Button>
-        <Button disabled={isCreating}>Add new guest</Button>
+        <Button disabled={isCreatingGuest}>Add new guest</Button>
       </FormRow>
     </Form>
   );

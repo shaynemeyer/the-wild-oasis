@@ -12,6 +12,7 @@ import {
 } from 'recharts';
 import { useDarkMode } from '../../context/DarkModeContext';
 import { eachDayOfInterval, format, isSameDay, subDays } from 'date-fns';
+import { BookingAfterDate } from '../../services/apiBookings';
 
 const StyledSalesChart = styled(DashboardBox)`
   grid-column: 1 / -1;
@@ -23,9 +24,7 @@ const StyledSalesChart = styled(DashboardBox)`
   }
 `;
 
-
-
-function SalesChart({ bookings, numDays } : {bookings: any, numDays: number}) {
+function SalesChart({ bookings, numDays } : {bookings: Array<BookingAfterDate>, numDays: number}) {
   const { isDarkMode } = useDarkMode()!;
 
   const allDates = eachDayOfInterval({
